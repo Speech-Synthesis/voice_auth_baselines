@@ -1,38 +1,68 @@
 #!/bin/bash
-#PBS -N deepfake_train
-#PBS -q workq
-#PBS -l select=1:ncpus=4:ngpus=1:mem=32gb
+#PBS -N voice_auth_train
+#PBS -l select=1:ncpus=4:ngpus=1:mem=32gb:host=node03
 #PBS -l walltime=48:00:00
-#PBS -o /home/n_harini/voice_auth_baselines/train.out
-#PBS -e /home/n_harini/voice_auth_baselines/train.err
+#PBS -q workq
+#PBS -o /home/n_harini/voice_auth_baselines/logs/train.out
+#PBS -e /home/n_harini/voice_auth_baselines/logs/train.err
+
+# =============================================================================
+# Voice Authentication Spoofing Detection Training - Amrita HPC
+# =============================================================================
+
+cd $PBS_O_WORKDIR
+
+# Create log directory
+mkdir -p logs
 
 echo "============================================================"
-echo "Deepfake / Voice Authentication Training"
-echo "============================================================"
+echo "Job Started: $(date)"
 echo "Job ID: $PBS_JOBID"
 echo "Node: $(hostname)"
-echo "Started: $(date)"
 echo "============================================================"
 
-cd /home/n_harini/voice_auth_baselines/legacy_model
-
+# Load CUDA
+echo "Loading CUDA module..."
 module load cuda11.6/toolkit/11.6.2
 
+# Activate micromamba environment
+echo "Activating voice_env environment..."
 eval "$(micromamba shell hook --shell bash)"
 micromamba activate voice_env
 
-echo "Python:"
+# Environment Information
+echo ""
+echo "Environment Information"
+echo "-----------------------"
+
 python --version
 
-echo "PyTorch/CUDA:"
-python -c "import torch; print('PyTorch:', torch.__version__); print('Built CUDA:', torch.version.cuda); print('CUDA available:', torch.cuda.is_available()); print('GPU:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'None')"
+python -c "import torch; print('PyTorch:', torch.__version__)"
+python -c "import torch; print('CUDA Available:', torch.cuda.is_available())"
+python -c "import torch; print('CUDA Version:', torch.version.cuda)"
 
-echo "GPU:"
+python - <<'EOF'
+import torch
+if torch.cuda.is_available():
+    print("GPU:", torch.cuda.get_device_name(0))
+else:
+    print("GPU: Not Available")
+EOF
+
+echo ""
+
+# GPU Status
+echo "GPU Status"
+echo "----------"
 nvidia-smi
+echo ""
 
+# Start Training
 echo "============================================================"
-echo "Starting training..."
+echo "Starting Voice Auth Spoofing Detection Training..."
 echo "============================================================"
+
+cd legacy_model
 
 python model_main.py \
     --num_epochs=100 \
@@ -42,9 +72,10 @@ python model_main.py \
 
 STATUS=$?
 
+echo ""
 echo "============================================================"
-echo "Training finished: $(date)"
-echo "Exit status: $STATUS"
+echo "Job Finished: $(date)"
+echo "Exit Status: $STATUS"
 echo "============================================================"
 
 exit $STATUS
