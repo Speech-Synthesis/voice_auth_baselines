@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# macOS
+.DS_Store
+
+# Temporary HPC/NFS files
+.nfs*
+
+# Dataset symlinks
+legacy_model/ASVspoof2021_DF_eval
+legacy_model/data_logical
+legacy_model/data_physical
+
+# Dataset/data directories
+legacy_model/data/
+legacy_model/datasets/
+
+# Python training outputs
+legacy_model/models/
+legacy_model/cache_*/
+legacy_model/logs/
+
+# Checkpoints
+*.pt
+*.pth
+*.ckpt
+
+# MATLAB compiled binaries
+*.mex*
+*.dll
+*.so
+*.dylib
+
+# MATLAB temporary files
+*.asv
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.idea/
+.vscode/
+*.wav
