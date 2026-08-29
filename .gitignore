@@ -45,3 +45,4 @@ legacy_model/logs/
 .idea/
 .vscode/
 *.wav
+.claude/
