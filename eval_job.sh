@@ -30,6 +30,9 @@ echo "Activating voice_env environment..."
 eval "$(micromamba shell hook --shell bash)"
 micromamba activate voice_env
 
+# Fix libstdc++ compatibility (use micromamba's newer version)
+export LD_LIBRARY_PATH=$CONDA_PREFIX/lib:$LD_LIBRARY_PATH
+
 # Environment Information
 echo ""
 echo "Environment Information"
