@@ -8,7 +8,6 @@
 
 # =============================================================================
 # Voice Authentication Spoofing Detection Training - Amrita HPC
-# FIXED: Removed host=node03 constraint (suspected cause of Exit_status=-18)
 # =============================================================================
 
 cd $PBS_O_WORKDIR
