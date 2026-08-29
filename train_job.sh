@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -N voice_auth_train
-#PBS -l select=1:ncpus=4:ngpus=1:mem=32gb:host=node03
+#PBS -l select=1:ncpus=4:mem=32gb
 #PBS -l walltime=48:00:00
 #PBS -q workq
 #PBS -o /home/n_harini/voice_auth_baselines/logs/train.out
@@ -8,6 +8,7 @@
 
 # =============================================================================
 # Voice Authentication Spoofing Detection Training - Amrita HPC
+# FIXED: Removed host=node03 constraint (suspected cause of Exit_status=-18)
 # =============================================================================
 
 cd $PBS_O_WORKDIR
