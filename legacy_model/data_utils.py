@@ -76,7 +76,7 @@ class ASVDataset(Dataset):
              track, feature_name)
         self.transform = transform
         if os.path.exists(self.cache_fname):
-            self.data_x, self.data_y, self.data_sysid, self.files_meta = torch.load(self.cache_fname)
+            self.data_x, self.data_y, self.data_sysid, self.files_meta = torch.load(self.cache_fname, weights_only=False)
             print('Dataset loaded from cache ', self.cache_fname)
         elif feature_name == 'cqcc':
             if os.path.exists(self.cache_matlab_fname):
